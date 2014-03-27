@@ -333,6 +333,7 @@ namespace POSH_sharp.executing
                 Console.Out.WriteLine("----");
                 if (verbose)
                     Console.Out.WriteLine(e);
+                Console.Out.WriteLine("----");
             }
             return agents;
         }

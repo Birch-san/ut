@@ -10,8 +10,8 @@
 (AP AP-moveing (minutes 1.0) (
 	moveto_navpoint
 ))
-(AP jump (minutes 1.0) (
-	jump
+(AP AP-jump (minutes 1.0) (
+	dojump
 ))
 (C wander-map (seconds 2.0) (goal ((focusing_task 1.0 =)))
 	(elements
@@ -40,7 +40,7 @@
 	(drives
 		(
 
-		(jump (trigger ((game_ended 0.0 =))) jump(seconds 1.0)))
+		(jump (trigger ((need_to_jump 1.0 =))) AP-jump(seconds 0.3)))
 		(
 
 		(return-enemy-flag (trigger ((have_enemy_flag 1.0 =))) retrace-back(seconds 0.3)))

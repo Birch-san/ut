@@ -14,8 +14,8 @@ namespace Posh_sharp.POSHBot
     {
         internal CombatInfo info;
         public Jump(AgentBase agent)
-            :base(agent,new string[] {"jump"},
-                        new string[] {})
+            :base(agent,new string[] {"dojump"},
+                        new string[] {"need_to_jump"})
         {
             info = new CombatInfo();
         }
@@ -30,16 +30,18 @@ namespace Posh_sharp.POSHBot
         /// Jumps
         /// </summary>
         /// <returns>True or false, dependent if the action was executed successful.</returns>
-        [ExecutableAction("jump")]
-        public bool Jump()
+        [ExecutableAction("dojump")]
+        public bool dojump()
         {
             if (_debug_)
-                Console.Out.WriteLine(" in TemplateAction1");
+                Console.Out.WriteLine(" in Jump");
+
+            GetBot().SendMessage("JUMP", new Dictionary<string, string>());
 
             // This is an example command which sends a request to the game engine to let the character stop shooting.
             // The commands are based on the included GameBots2004 API which is available on the project webpage.
             // GetBot().SendMessage("STOPSHOOT", new Dictionary<string, string>());
-            return false;
+            return true;
         }
 
         /*
@@ -47,5 +49,13 @@ namespace Posh_sharp.POSHBot
          * SENSES
          * 
          */
+
+        [ExecutableSense("need_to_jump")]
+        public bool need_to_jump()
+        {
+            if (_debug_)
+                Console.Out.WriteLine("in NeedToJump");
+            return false;
+        }
     }
 }

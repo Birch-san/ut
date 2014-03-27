@@ -72,7 +72,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     -->
-
     <None Include="library\plans\*">
       <Link>library\plans\%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -101,11 +100,16 @@
       <Project>{A29EA261-C940-427B-AB72-B27EEFDC15A0}</Project>
       <Name>POSH-sharp.core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\POSHBot\POSHBot.csproj">
+      <Project>{0aeef9c9-d65d-4072-a6c2-352ff8cbde39}</Project>
+      <Name>POSHBot</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="library\plans\" />
     <Folder Include="plans\" />
   </ItemGroup>
   <ItemGroup>
@@ -113,16 +117,22 @@
       <Link>library\init\POSHBot_init.txt</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="library\POSHBot.dll">
+    <!--<Content Include="library\POSHBot.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </Content>-->
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
-  </Target>
+  </Target>-->
   <Target Name="AfterBuild">
+    <Message Importance="high" Text="Looking for $(OutputPath)\POSHBot.dll" />
+    <Message Importance="high" Condition="Exists('$(OutputPath)\POSHBot.dll')" Text="Exists $(OutputPath)\POSHBot.dll" />
+    <Copy
+      SourceFiles="$(OutputPath)\POSHBot.dll"
+      DestinationFolder="$(OutputPath)\library"
+      SkipUnchangedFiles="true"
+    />
   </Target>
-  -->
 </Project>
