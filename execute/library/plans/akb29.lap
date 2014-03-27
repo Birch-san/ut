@@ -10,6 +10,9 @@
 (AP AP-moveing (minutes 1.0) (
 	moveto_navpoint
 ))
+(AP jump (minutes 1.0) (
+	jump
+))
 (C wander-map (seconds 2.0) (goal ((focusing_task 1.0 =)))
 	(elements
 		(	(CE-moveto-navpoint (trigger ((selected_target 1.0 =) (reached_target 0.0 =))) moveto-selected-nav)	)
@@ -35,6 +38,9 @@
 )
 (SRDC life (goal ((game_ended 1.0 =)))
 	(drives
+		(
+
+		(jump (trigger ((game_ended 0.0 =))) jump(seconds 1.0)))
 		(
 
 		(return-enemy-flag (trigger ((have_enemy_flag 1.0 =))) retrace-back(seconds 0.3)))
