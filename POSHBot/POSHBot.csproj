@@ -70,6 +70,7 @@
     <Compile Include="Navigator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <!--
     <Content Include="init\POSHBot_init.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -83,6 +84,11 @@
     <None Include="plans\defendbot.lap" />
     <None Include="plans\oldPOSH-attackbot.lap" />
     <None Include="plans\POSHBot.lap">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    -->
+    <None Include="..\execute\library\plans\*">
+      <Link>plans\%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
