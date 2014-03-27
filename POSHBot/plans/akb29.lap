@@ -13,6 +13,10 @@
 (AP AP-jump (minutes 1.0) (
 	dojump
 ))
+(AP AP-ShootAttacker (minutes 1.0) (
+	SetAttacker 
+	ShootAttacker
+))
 (C wander-map (seconds 2.0) (goal ((focusing_task 1.0 =)))
 	(elements
 		(	(CE-moveto-navpoint (trigger ((selected_target 1.0 =) (reached_target 0.0 =))) moveto-selected-nav)	)
@@ -33,17 +37,23 @@
 )
 (C moveto-selected-nav (seconds 0.5) (goal ((reached_target 1.0 =)))
 	(elements
+		(	(CE-need-to-jump (trigger ((need_to_jump))) AP-jump)	)
 		(	(CE-moveto-navpoint (trigger ((close_navpoint 1.0 =) (is_walking 1.0 !=) (selected_navpoint_reachable 1.0 =))) moveto_navpoint)	)
+	)
+)
+(C CE-handle-threat (seconds 6.0) (goal ((fail 1.0 =)))
+	(elements
+		(	(CE-attack-visible (trigger ((succeed 1.0 =))) AP-ShootAttacker)	)
 	)
 )
 (SRDC life (goal ((game_ended 1.0 =)))
 	(drives
 		(
 
-		(jump (trigger ((need_to_jump 1.0 =))) AP-jump(seconds 0.3)))
+		(return-enemy-flag (trigger ((have_enemy_flag 1.0 =))) retrace-back(seconds 0.3)))
 		(
 
-		(return-enemy-flag (trigger ((have_enemy_flag 1.0 =))) retrace-back(seconds 0.3)))
+		(attack-visible (trigger ((game_ended 1.0 !=))) CE-handle-threat(seconds 0.3)))
 		(
 
 		(get-enemy-flag-from-base (trigger ((enemy_flag_reachable 1.0 =))) get-enemy-flag(seconds 0.3)))

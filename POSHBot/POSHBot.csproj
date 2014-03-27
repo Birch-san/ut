@@ -12,6 +12,7 @@
     <AssemblyName>POSHBot</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,6 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="mybehaviours\Jump.cs" />
+    <Compile Include="mybehaviours\MyCombat.cs" />
+    <Compile Include="mybehaviours\MyNavigator.cs" />
     <Compile Include="Template.cs" />
     <Compile Include="POSHBot.cs" />
     <Compile Include="Combat.cs" />
@@ -87,22 +91,24 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     -->
-    <None Include="..\execute\library\plans\*">
+    <Content Include="plans\*.lap">
       <Link>plans\%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\core\POSH-sharp.core.csproj">
       <Project>{A29EA261-C940-427B-AB72-B27EEFDC15A0}</Project>
       <Name>POSH-sharp.core</Name>
     </ProjectReference>
   </ItemGroup>
+  <!--<ItemGroup>
+    <Folder Include="plans\" />
+  </ItemGroup>-->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
+  <!--<PropertyGroup>
     <PostBuildEvent>copy /Y "$(TargetDir)$(TargetFileName)" "$(SolutionDir)execute\library\$(TargetFileName)"</PostBuildEvent>
-  </PropertyGroup>
+  </PropertyGroup>-->
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

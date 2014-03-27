@@ -15,7 +15,7 @@ namespace Posh_sharp.POSHBot
         internal CombatInfo info;
         public Jump(AgentBase agent)
             :base(agent,new string[] {"dojump"},
-                        new string[] {"need_to_jump"})
+                        new string[] { "need_to_jump", "lose_your_way3" })
         {
             info = new CombatInfo();
         }

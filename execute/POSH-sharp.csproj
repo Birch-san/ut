@@ -72,10 +72,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     -->
-    <None Include="library\plans\*">
+    <!--<None Include="library\plans\*">
       <Link>library\plans\%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </None>-->
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -108,10 +108,10 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup>
+  <!--<ItemGroup>
     <Folder Include="library\plans\" />
     <Folder Include="plans\" />
-  </ItemGroup>
+  </ItemGroup>-->
   <ItemGroup>
     <Content Include="..\POSHBot\init\POSHBot_init.txt">
       <Link>library\init\POSHBot_init.txt</Link>
@@ -127,12 +127,24 @@
   <Target Name="BeforeBuild">
   </Target>-->
   <Target Name="AfterBuild">
+    <!--
     <Message Importance="high" Text="Looking for $(OutputPath)\POSHBot.dll" />
     <Message Importance="high" Condition="Exists('$(OutputPath)\POSHBot.dll')" Text="Exists $(OutputPath)\POSHBot.dll" />
+    -->
     <Copy
       SourceFiles="$(OutputPath)\POSHBot.dll"
       DestinationFolder="$(OutputPath)\library"
       SkipUnchangedFiles="true"
+    />
+
+    <ItemGroup>
+      <LapFiles Include="$(OutputPath)\plans\*.lap"/>
+    </ItemGroup>
+
+    <Copy
+      SourceFiles="@(LapFiles)"
+      DestinationFolder="$(OutputPath)\library\plans"
+      SkipUnchangedFiles="false"
     />
   </Target>
 </Project>
