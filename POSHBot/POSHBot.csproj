@@ -56,6 +56,7 @@
     <Compile Include="mybehaviours\Jump.cs" />
     <Compile Include="mybehaviours\MyCombat.cs" />
     <Compile Include="mybehaviours\MyNavigator.cs" />
+    <Compile Include="mybehaviours\MyStatus.cs" />
     <Compile Include="Template.cs" />
     <Compile Include="POSHBot.cs" />
     <Compile Include="Combat.cs" />
@@ -101,6 +102,9 @@
       <Project>{A29EA261-C940-427B-AB72-B27EEFDC15A0}</Project>
       <Name>POSH-sharp.core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="plans\" />
   </ItemGroup>
   <!--<ItemGroup>
     <Folder Include="plans\" />

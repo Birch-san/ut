@@ -22,19 +22,19 @@ POSHBot.team = 0
 POSHBot.ip = 127.0.0.1
 POSHBot.port = 3000
 
-[akb29]
+[POSHBot]
 POSHBot.botname = Walpurgisnacht
 POSHBot.team = 1
 POSHBot.ip = 127.0.0.1
 POSHBot.port = 3000
 
-[akb29]
+[POSHBot]
 POSHBot.botname = Charlotte
 POSHBot.team = 1
 POSHBot.ip = 127.0.0.1
 POSHBot.port = 3000
 
-[akb29]
+[POSHBot]
 POSHBot.botname = Kyuubey
 POSHBot.team = 1
 POSHBot.ip = 127.0.0.1

@@ -12,10 +12,12 @@ namespace Posh_sharp.POSHBot
 {
     public class MyCombat : UTBehaviour
     {
+        private bool targetChosen = false;
+
         internal CombatInfo info;
         public MyCombat(AgentBase agent)
             : base(agent, new string[] {  },
-                        new string[] { "SeekAttacker" })
+                        new string[] { "SeekAttacker", "PaintedTarget" })
         {
             info = new CombatInfo();
         }
@@ -46,7 +48,18 @@ namespace Posh_sharp.POSHBot
             else
                 return FindEnemyInView();
 
+            // unset target if we had one; we have clearly lost it.
+            targetChosen = false;
             return false;
+        }
+
+        // makes sure just one target is chosen at a time
+        [ExecutableSense("PaintedTarget")]
+        public bool PaintedTarget()
+        {
+            targetChosen = true;
+            bool answer = SeekAttacker();
+            return answer;
         }
 
         private bool FindEnemyInView()

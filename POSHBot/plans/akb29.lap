@@ -15,7 +15,11 @@
 ))
 (AP AP-ShootAttacker (minutes 1.0) (
 	SetAttacker 
+	FaceAttacker 
 	ShootAttacker
+))
+(AP AP-SetAttacker (minutes 1.0) (
+	SeekAttacker
 ))
 (C wander-map (seconds 2.0) (goal ((focusing_task 1.0 =)))
 	(elements
@@ -39,11 +43,18 @@
 	(elements
 		(	(CE-need-to-jump (trigger ((need_to_jump))) AP-jump)	)
 		(	(CE-moveto-navpoint (trigger ((close_navpoint 1.0 =) (is_walking 1.0 !=) (selected_navpoint_reachable 1.0 =))) moveto_navpoint)	)
+		(	(CE-find-nxt-way2 (trigger ((close_navpoint))) retrace_navpoint)	)
 	)
 )
-(C CE-handle-threat (seconds 6.0) (goal ((fail 1.0 =)))
+(C CE-handle-threat (seconds 6.0) (goal ((SeekAttacker 0.0 =)))
 	(elements
 		(	(CE-attack-visible (trigger ((succeed 1.0 =))) AP-ShootAttacker)	)
+	)
+)
+(C hunt (minutes 1.0) (goal ((fail)))
+	(elements
+		(	(hunt-enemy (trigger ((enemy_has_our_flag))) retrace-back)	)
+		(	(backup-flag-bearer (trigger ((succeed))) wander-map)	)
 	)
 )
 (SRDC life (goal ((game_ended 1.0 =)))
@@ -53,10 +64,13 @@
 		(return-enemy-flag (trigger ((have_enemy_flag 1.0 =))) retrace-back(seconds 0.3)))
 		(
 
-		(attack-visible (trigger ((game_ended 1.0 !=))) CE-handle-threat(seconds 0.3)))
+		(cover-flag-bearer (trigger ((teammate_has_enemy_flag))) hunt(seconds 3.0)))
 		(
 
 		(get-enemy-flag-from-base (trigger ((enemy_flag_reachable 1.0 =))) get-enemy-flag(seconds 0.3)))
+		(
+
+		(attack-visible (trigger ((SeekAttacker 1.0 =))) CE-handle-threat(seconds 0.3)))
 		(
 
 		(wander_around (trigger ((focusing_task 1.0 !=))) wander-map(seconds 0.3)))
