@@ -156,6 +156,9 @@ namespace Posh_sharp.POSHBot
                     {"FirstLocation", location.ToString()},
                     {"FocusTarget", GetCombat().info.KeepFocusOnID.ToString()}
                 });
+                var help = 1;
+                var save = 2;
+                var y = 3;
             }
             else
             {
@@ -247,6 +250,7 @@ namespace Posh_sharp.POSHBot
         {
             if (_debug_)
                 Console.Out.WriteLine("in is_walking");
+
             return GetBot().Moving();
         }
 
@@ -480,10 +484,14 @@ namespace Posh_sharp.POSHBot
         [ExecutableAction("moveto_navpoint",1f)]
 		public bool moveto_navpoint()
         {
+            var ta = GetBot().info["Team"];
 			if (_debug_)
 				Console.Out.Write("moveto_navpoint:");
 			if (GetNavigator ().selected_target ()) 
 			{
+                var na = GetBot().info["Name"];
+                var loc = (GetNavigator().GetSelectedNavpoint().Location);
+                var selected = GetNavigator().GetSelectedNavpoint();
 				SendMoveToLocation (GetNavigator ().GetSelectedNavpoint ().Location);
 				GetNavigator ().MovedToNavpoint ( GetNavigator ().GetSelectedNavpoint ());
 				return true;

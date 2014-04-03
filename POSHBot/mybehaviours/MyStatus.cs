@@ -39,9 +39,11 @@ namespace Posh_sharp.POSHBot
         {
             if (GetBot().info.Count == 0)
                 return 0;
-            if (GetBot().info.ContainsKey("CurrentAmmo"))
+            
+            var inf = GetBot().info;
+            if (GetBot().info.ContainsKey("PrimaryAmmo"))
             {
-                var ammo = GetBot().info["CurrentAmmo"];
+                var ammo = GetBot().info["PrimaryAmmo"];
                 Console.WriteLine(ammo);
                 var parsed = int.Parse(ammo);
                 return parsed;

@@ -23,8 +23,8 @@
 ))
 (C wander-map (seconds 2.0) (goal ((focusing_task 1.0 =)))
 	(elements
-		(	(CE-moveto-navpoint (trigger ((selected_target 1.0 =) (reached_target 0.0 =))) moveto-selected-nav)	)
 		(	(CE-find-nxt-waypoint (trigger ((close_navpoint 1.0 =))) select_navpoint)	)
+		(	(CE-JumpWhenNeeded (trigger ((IsStuck 1.0 =))) dojump)	)
 	)
 )
 (C get-enemy-flag (seconds 30.0) (goal ((have_enemy_flag 1.0 =)))
@@ -41,9 +41,9 @@
 )
 (C moveto-selected-nav (seconds 0.5) (goal ((reached_target 1.0 =)))
 	(elements
-		(	(CE-need-to-jump (trigger ((need_to_jump))) AP-jump)	)
+		(	(CE-need-to-jump (trigger ((IsStuck))) AP-jump)	)
 		(	(CE-moveto-navpoint (trigger ((close_navpoint 1.0 =) (is_walking 1.0 !=) (selected_navpoint_reachable 1.0 =))) moveto_navpoint)	)
-		(	(CE-find-nxt-way2 (trigger ((close_navpoint))) retrace_navpoint)	)
+		(	(CE-find-nxt-way2 (trigger ((close_navpoint))) select_navpoint)	)
 	)
 )
 (C CE-handle-threat (seconds 6.0) (goal ((SeekAttacker 0.0 =)))
@@ -57,8 +57,16 @@
 		(	(backup-flag-bearer (trigger ((succeed))) wander-map)	)
 	)
 )
+(C interrupt-stasis (seconds 1.0) (goal ((fail)))
+	(elements
+		(	(CE-interrupt (trigger ((succeed))) idle)	)
+	)
+)
 (SRDC life (goal ((game_ended 1.0 =)))
 	(drives
+		(
+
+		(interrupt (trigger ((succeed))) interrupt-stasis(seconds 10.0)))
 		(
 
 		(return-enemy-flag (trigger ((have_enemy_flag 1.0 =))) retrace-back(seconds 0.3)))
@@ -70,7 +78,7 @@
 		(get-enemy-flag-from-base (trigger ((enemy_flag_reachable 1.0 =))) get-enemy-flag(seconds 0.3)))
 		(
 
-		(attack-visible (trigger ((SeekAttacker 1.0 =))) CE-handle-threat(seconds 0.3)))
+		(attack-visible (trigger ((ArmedAndAmmo2) (SeekAttacker 1.0 =))) CE-handle-threat(seconds 0.3)))
 		(
 
 		(wander_around (trigger ((focusing_task 1.0 !=))) wander-map(seconds 0.3)))

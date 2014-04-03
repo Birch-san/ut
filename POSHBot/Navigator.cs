@@ -89,6 +89,11 @@ namespace Posh_sharp.POSHBot
 		{
 			string leastVisitedNav = "";
 
+
+            var inf = GetBot().info;
+            var na = inf["Name"];
+            var ta = inf["Team"];
+
 			directionWeight = 1;
 			Console.Out.WriteLine ("in select_navpoint");
 
@@ -172,6 +177,7 @@ namespace Posh_sharp.POSHBot
 		{
             if (_debug_)
                 Console.Out.WriteLine("in select_navpoint");
+
 			return select_navpoint ("");
 		}
 
