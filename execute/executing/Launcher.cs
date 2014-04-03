@@ -411,6 +411,15 @@ namespace POSH_sharp.executing
             // the world, as the agent initialisation needs to be give to the world
             // initialisation script
 
+            // Let's make it output to file.
+           // FileStream fs = new FileStream("Test.txt", FileMode.Create);
+            // First, save the standard output.
+            //TextWriter tmp = Console.Out;
+            //StreamWriter sw = new StreamWriter(fs);
+            //sw.AutoFlush = true;
+            //Console.SetOut(sw);
+            OutputRedirector.SetToConsole();
+
             if (verbose)
                 Console.Out.WriteLine("- collect agent initialisation options");
             agentsInit = application.InitAgents(verbose, assembly, agentLibrary);

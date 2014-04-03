@@ -421,6 +421,10 @@ namespace Posh_sharp.POSHBot
                     Console.Out.WriteLine("enemyFlaginfo "+info.enemyFlagInfo.ToString());
             }
 
+            string name;
+            GetBot().info.TryGetValue("Name", out name);
+            var fIn = info.enemyFlagInfo;
+
             // Made simpler FA
             if (info.enemyFlagInfo.Count () > 0 && bool.Parse (info.enemyFlagInfo ["Reachable"]))
                 return true;

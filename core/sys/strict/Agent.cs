@@ -127,7 +127,7 @@ namespace POSH_sharp.sys.strict
                 profiler.increaseTotalCalls();
 
             log.Debug("Processing Drive Collection");
-            Console.Clear();
+            //Console.Clear();
 
             result = dc.fire();
             timer.LoopEnd();

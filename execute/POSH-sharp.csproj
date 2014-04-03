@@ -40,6 +40,7 @@
     <Commandlineparameters>-v -a=PoshBot.dll POSHBot</Commandlineparameters>
     <ConsolePause>false</ConsolePause>
     <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -51,7 +52,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>POSH_sharp.executing.Launcher</StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <Optimize>false</Optimize>
@@ -63,6 +65,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="executing\Launcher.cs" />
+    <Compile Include="mine\OutputRedirector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -132,20 +135,10 @@
     <Message Importance="high" Text="Looking for $(OutputPath)\POSHBot.dll" />
     <Message Importance="high" Condition="Exists('$(OutputPath)\POSHBot.dll')" Text="Exists $(OutputPath)\POSHBot.dll" />
     -->
-    <Copy
-      SourceFiles="$(OutputPath)\POSHBot.dll"
-      DestinationFolder="$(OutputPath)\library"
-      SkipUnchangedFiles="true"
-    />
-
+    <Copy SourceFiles="$(OutputPath)\POSHBot.dll" DestinationFolder="$(OutputPath)\library" SkipUnchangedFiles="true" />
     <ItemGroup>
-      <LapFiles Include="$(OutputPath)\plans\*.lap"/>
+      <LapFiles Include="$(OutputPath)\plans\*.lap" />
     </ItemGroup>
-
-    <Copy
-      SourceFiles="@(LapFiles)"
-      DestinationFolder="$(OutputPath)\library\plans"
-      SkipUnchangedFiles="false"
-    />
+    <Copy SourceFiles="@(LapFiles)" DestinationFolder="$(OutputPath)\library\plans" SkipUnchangedFiles="false" />
   </Target>
 </Project>
