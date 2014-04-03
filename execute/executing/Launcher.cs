@@ -418,7 +418,8 @@ namespace POSH_sharp.executing
             //StreamWriter sw = new StreamWriter(fs);
             //sw.AutoFlush = true;
             //Console.SetOut(sw);
-            OutputRedirector.SetToConsole();
+            
+            //OutputRedirector.SetToConsole();
 
             if (verbose)
                 Console.Out.WriteLine("- collect agent initialisation options");

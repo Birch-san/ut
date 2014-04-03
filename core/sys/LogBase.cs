@@ -9,6 +9,7 @@ using System.IO;
 using log4net.Layout;
 using log4net.Appender;
 using log4net.Repository.Hierarchy;
+using log4net.Config;
 
 namespace POSH_sharp.sys
 {
@@ -136,7 +137,8 @@ namespace POSH_sharp.sys
         /// <param name="level"></param>
         public static void setupConsoleLogging(Level level){
 
-            log4net.Config.BasicConfigurator.Configure();
+            //log4net.Config.BasicConfigurator.Configure();
+            XmlConfigurator.Configure(new System.IO.FileInfo("log4netconfig.xml"));
         
             Hierarchy h = LogManager.GetRepository()as Hierarchy;
             h.Root.Level =level;

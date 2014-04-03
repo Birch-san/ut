@@ -39,11 +39,11 @@
 )
 (C retrace-back (seconds 5.0) (goal ((at_own_base 1.0 =)))
 	(elements
-		(	(CE-retrace-navpoint (trigger ((selected_target 1.0 =) (reached_target 0.0 =))) moveto-selected-nav)	)
+		(	(CE-retrace-navpoint (trigger ((have_enemy_flag 1.0 =) (fail))) moveto-selected-nav)	)
 		(	(CE-retrace-home (trigger ((close_navpoint 1.0 =))) retrace_navpoint)	)
 	)
 )
-(C moveto-selected-nav (seconds 0.5) (goal ((reached_target 1.0 =)))
+(C moveto-selected-nav (seconds 0.5) (goal ((have_enemy_flag 0.0 =)))
 	(elements
 		(	(CE-moveto-navpoint (trigger ((close_navpoint 1.0 =) (is_walking 1.0 !=) (selected_navpoint_reachable 1.0 =))) moveto_navpoint)	)
 		(	(CE-find-nxt-way2 (trigger ((close_navpoint))) select_navpoint)	)

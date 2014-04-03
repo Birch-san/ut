@@ -3,7 +3,7 @@
 $scriptDir = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
 Set-Location $scriptDir
 
-$filename = "$scriptDir\execute\bin\Debug\Test.txt"
+$filename = "$scriptDir\execute\bin\Debug\output.log"
 $reader = new-object System.IO.StreamReader(New-Object IO.FileStream($filename, [System.IO.FileMode]::Open, [System.IO.FileAccess]::Read, [IO.FileShare]::ReadWrite))
 #start at the end of the file
 $lastMaxOffset = $reader.BaseStream.Length
@@ -36,6 +36,20 @@ while ($true)
     $lastMaxOffset = $reader.BaseStream.Position
 }
 
+Function careLine($line) {
+    if ($line -match 'Waiting for behaviours ready') {
+        #Start-Sleep -m 3000
+        Clear-Host
+    }
+    if ($line -match 'DEBUG 0') {
+        $line
+    }
+}
+
 #Get-FileTail -Path "execute\bin\Debug\Test.txt" -Wait 
 #while ($true) {Clear-Host; gc "execute\bin\Debug\Test.txt" -Tail 50; sleep 1 }
 #Get-FileTail "execute\bin\Debug\Test.txt" -Wait | out-null
+
+Function yo() {
+    gc $filename -Tail 100 | %{careLine($_)}
+}
