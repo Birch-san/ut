@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 using POSH_sharp.sys;
 using POSH_sharp.sys.annotations;
@@ -56,7 +57,20 @@ namespace Posh_sharp.POSHBot
             if (_debug_)
                 Console.Out.WriteLine(" in JumpForward");
 
-            GetBot().SendMessage("JUMP", new Dictionary<string, string>());
+            GetBot().SendMessage("CMOVE", new Dictionary<string, string>());
+            Thread.Sleep(50);
+            dojump();
+            Thread.Sleep(100);
+
+            GetBot().SendMessage("CMOVE", new Dictionary<string, string>());
+
+            Thread.Sleep(200);
+
+            GetBot().SendMessage("STOP", new Dictionary<string, string>());
+
+            Thread.Sleep(50);
+
+            GetMovement().moveto_navpoint();
 
             // This is an example command which sends a request to the game engine to let the character stop shooting.
             // The commands are based on the included GameBots2004 API which is available on the project webpage.
