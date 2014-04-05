@@ -4,7 +4,7 @@
 # won't be used.
 
 
-[akb29]
+[akb29_2]
 POSHBot.botname = Madoka
 POSHBot.team = 0
 POSHBot.ip = 127.0.0.1
