@@ -1,0 +1,110 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using POSH_sharp.sys;
+using POSH_sharp.sys.annotations;
+using Posh_sharp.POSHBot.util;
+using POSH_sharp.sys.strict;
+
+namespace Posh_sharp.POSHBot
+{
+    public class MyMovement: UTBehaviour
+    {
+        internal PositionsInfo info;
+        string pathHomeId;
+        string reachPathHomeId;
+        string pathToEnemyBaseId;
+        string reachPathToEnemyBaseID;
+
+        public MyMovement(AgentBase agent)
+            : base(agent,
+            new string[] { "retrace_navpoint2" },
+            new string[] {  })
+        {
+            this.info = new PositionsInfo();
+            pathHomeId = "PathHome";
+            reachPathHomeId = "ReachPathHome";
+            pathToEnemyBaseId = "PathThere";
+            reachPathToEnemyBaseID = "ReachPathThere";
+
+        }
+
+
+        /*
+         * 
+         * internal methods
+         * 
+         */
+
+        /// <summary>
+        /// updates the flag positions in PositionsInfo
+        /// also updates details of bases, if relevant info sent
+        /// the position of a flag is how we determine where the bases are
+        /// </summary>
+        /// <param name="values">Dictionary containing the Flag details</param>
+        override internal void ReceiveFlagDetails(Dictionary<string, string> values)
+        {
+            // TODO: fix the mix of information in this method it should just contain relevant info
+
+            
+            if (GetBot().info == null || GetBot().info.Count < 1)
+                return;
+            // set flag stuff
+            if (values["Team"] == GetBot().info["Team"])
+            {
+                if (info.ourFlagInfo != null && info.ourFlagInfo.ContainsKey("Location"))
+                    return;
+                info.ourFlagInfo = values;
+            }
+            else
+            {
+                if (info.enemyFlagInfo != null && info.enemyFlagInfo.ContainsKey("Location"))
+                    return;
+                info.enemyFlagInfo = values;
+            }
+
+            if (values["State"] == "home")
+                if (values["Team"] == GetBot().info["Team"])
+                    info.ownBasePos = NavPoint.ConvertToNavPoint(values);
+                else
+                    info.enemyBasePos = NavPoint.ConvertToNavPoint(values);
+        }
+
+        public string GetBaseNavId()
+        {
+            return info.ownBasePos.Id;
+        }
+
+        /*
+        * 
+        * ACTIONS 
+        * 
+        */
+        [ExecutableAction("retrace_navpoint2")]
+        public bool retrace_navpoint2()
+        {
+            if (GetMovement().KnowOwnBasePos())
+            {
+                // if at own base, stay there rather than overshooting
+                if (GetMovement().at_own_base())
+                {
+                    GetNavigator().select_navpoint(GetBaseNavId());
+                }
+            }
+
+            // we need to clear navpoints sometime if we realise we are in our base.
+            return GetNavigator().retrace_navpoint();
+        }
+       
+
+        /*
+         * 
+         * SENSES
+         * 
+         */
+
+        
+    }
+}
