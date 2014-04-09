@@ -107,8 +107,9 @@
       <Name>POSH-sharp.core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="plans\" />
+    <None Include="plans\akb29_3.lap" />
   </ItemGroup>
   <!--<ItemGroup>
     <Folder Include="plans\" />

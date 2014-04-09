@@ -19,10 +19,11 @@ namespace Posh_sharp.POSHBot
         string pathToEnemyBaseId;
         string reachPathToEnemyBaseID;
 
+
         public MyMovement(AgentBase agent)
             : base(agent,
-            new string[] { "retrace_navpoint2", "WobbleForward" },
-            new string[] {  })
+            new string[] { "retrace_navpoint2", "WobbleForward", "select_navpoint2", "DoTotem" },
+            new string[] { "Camped" })
         {
             this.info = new PositionsInfo();
             pathHomeId = "PathHome";
@@ -101,6 +102,23 @@ namespace Posh_sharp.POSHBot
             return GetNavigator().retrace_navpoint();
         }
 
+        [ExecutableAction("select_navpoint2")]
+        public bool select_navpoint2()
+        {
+            if (GetMovement().KnowOwnBasePos())
+            {
+                // if at own base, stay there rather than overshooting
+                if (GetNavigator().at_own_base())
+                {
+                    return false;
+                    //GetNavigator().select_navpoint(GetBaseNavId());
+                }
+            }
+
+            // we need to clear navpoints sometime if we realise we are in our base.
+            return GetNavigator().select_navpoint();
+        }
+
         [ExecutableAction("WobbleForward")]
         public bool WobbleForward()
         {
@@ -122,6 +140,29 @@ namespace Posh_sharp.POSHBot
          * 
          */
 
-        
+        [ExecutableSense("Camped")]
+        public bool Camped()
+        {
+            bool newCamped = false;
+            if (GetMovement().KnowOwnBasePos())
+            {
+                // if at own base, stay there rather than overshooting
+                if (GetNavigator().at_own_base())
+                {
+                    return true;
+                }
+            }
+
+            // we need to clear navpoints sometime if we realise we are in our base.
+            return false;
+        }
+
+        [ExecutableAction("DoTotem")]
+        public bool DoTotem()
+        {
+            GetBot().SendMessage("JUMP", new Dictionary<string, string> { { "DoubleJump", "true" } });
+            GetMovement().BigRotate();
+            return true;
+        }
     }
 }

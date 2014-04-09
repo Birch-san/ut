@@ -4,6 +4,24 @@
 # won't be used.
 
 [akb29_2]
+POSHBot.botname = Madoka
+POSHBot.team = 0
+POSHBot.ip = 127.0.0.1
+POSHBot.port = 3000
+
+[akb29_2]
+POSHBot.botname = Mami
+POSHBot.team = 0
+POSHBot.ip = 127.0.0.1
+POSHBot.port = 3000
+
+[akb29_3]
+POSHBot.botname = Homura
+POSHBot.team = 0
+POSHBot.ip = 127.0.0.1
+POSHBot.port = 3000
+
+[akb29_2]
 POSHBot.botname = Walpurgisnacht
 POSHBot.team = 1
 POSHBot.ip = 127.0.0.1
@@ -15,7 +33,7 @@ POSHBot.team = 1
 POSHBot.ip = 127.0.0.1
 POSHBot.port = 3000
 
-[akb29_2]
+[akb29_3]
 POSHBot.botname = Kyuubey
 POSHBot.team = 1
 POSHBot.ip = 127.0.0.1
