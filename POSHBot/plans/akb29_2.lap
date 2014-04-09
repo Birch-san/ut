@@ -36,6 +36,11 @@
 		(	(CE-find-nxt-waypoint (trigger ((close_navpoint 1.0 =))) select_navpoint )	)
 	)
 )
+(C set-skin (seconds 2.0) (goal ((skinned 1.0 =)))
+	(elements
+		(	(CE-skin (trigger ((succeed))) doskin)	)
+	)
+)
 (C get-enemy-flag (seconds 30.0) (goal ((have_enemy_flag 1.0 =)))
 	(elements
 		(	(CE-moveto-flag (trigger ((selected_target 1.0 =) (reached_target 0.0 =))) moveto-selected-nav)	)
@@ -61,6 +66,15 @@
 )
 (SRDC life (goal ((game_ended 1.0 =)))
 	(drives
+		(
+
+		(DE_set_skin (trigger ((skinned 1.0 !=))) set-skin(seconds 1.0)))
+		(
+
+		(bestweap (trigger ((succeed))) AP-BestWeap(seconds 50.0)))
+		(
+
+		(taunt (trigger ((succeed))) AP-Taunt(seconds 15.0)))
 		(
 
 		(attack-visible (trigger ((ArmedAndAmmo) (SeeEnemy2 1.0 =))) CE-handle-threat(seconds 0.0)))
