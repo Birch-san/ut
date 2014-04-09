@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+
+using System.Net;
+
 using POSH_sharp.sys;
 using POSH_sharp.sys.annotations;
 using Posh_sharp.POSHBot.util;
@@ -13,10 +16,11 @@ namespace Posh_sharp.POSHBot
     public class MyCombat : UTBehaviour
     {
         private bool targetChosen = false;
+        private bool hasSkinned = false;
 
         internal CombatInfo info;
         public MyCombat(AgentBase agent)
-            : base(agent, new string[] {  },
+            : base(agent, new string[] { "Taunt", "ChooseBestWeapon" },
                         new string[] { "SeekAttacker", "PaintedTarget" })
         {
             info = new CombatInfo();
@@ -32,7 +36,13 @@ namespace Posh_sharp.POSHBot
         {
             Console.Out.WriteLine(" in SeekAttacker");
             // FOR NOW
-            return false;
+
+            if (!hasSkinned)
+            {
+                GetBot().SendMessage("SETSKIN", new Dictionary<string, string> { { "Skin", "HumanFemaleA.MercFemaleB" } });
+                hasSkinned = true;
+                return false;
+            }
 
             if (GetBot().viewPlayers.Count == 0 || GetBot().info.Count == 0)
                 return false;
@@ -62,6 +72,33 @@ namespace Posh_sharp.POSHBot
             targetChosen = true;
             bool answer = SeekAttacker();
             return answer;
+        }
+
+        [ExecutableAction("ChooseBestWeapon")]
+        public bool ChooseBestWeapon()
+        {
+            GetBot().SendMessage("CHANGEWEAPON", new Dictionary<string, string> { { "Id", "CTF-Bath-CW3-comp.AssaultRifle" } });
+            GetBot().SendMessage("CHANGEWEAPON", new Dictionary<string, string> { { "Id", "CTF-Bath-CW3-comp.ShockRifle" } });
+            GetBot().SendMessage("CHANGEWEAPON", new Dictionary<string, string> { { "Id", "CTF-Bath-CW3-comp.Minigun" } });
+            return true;
+        }
+
+        [ExecutableAction("Taunt")]
+        public bool Taunt()
+        {
+            Random random = new Random();
+            int randomNumber = random.Next(0, 100);
+            if (randomNumber > 85) {
+                var client = new WebClient();
+                // Download Text From web
+                var text = client.DownloadString("http://www.pangloss.com/seidel/Shaker/index.html");
+                var parts = text.Split(new string[] { "font" }, StringSplitOptions.None);
+                var interest = parts[1].Substring(12);
+                interest = interest.Remove(interest.Length - 2);
+
+                GetBot().SendMessage("MESSAGE", new Dictionary<string, string> { { "Global", "True" }, { "Text", interest } });
+            }
+            return true;
         }
 
         private bool FindEnemyInView()

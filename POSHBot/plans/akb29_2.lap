@@ -13,6 +13,15 @@
 (AP AP-JumpForward (minutes 1.0) (
 	JumpForward
 ))
+(AP AP-BestWeap (minutes 1.0) (
+	ChooseBestWeapon 
+))
+(AP AP-Taunt (minutes 1.0) (
+	Taunt 
+))
+(AP AP-WobbleForward (minutes 1.0) (
+	WobbleForward 
+))
 (AP AP-ShootAttacker (minutes 1.0) (
 	SetAttacker 
 	FaceAttacker 
@@ -52,6 +61,12 @@
 )
 (SRDC life (goal ((game_ended 1.0 =)))
 	(drives
+		(
+
+		(bestweap (trigger ((succeed))) AP-BestWeap(seconds 5.0)))
+		(
+
+		(taunt (trigger ((succeed))) AP-Taunt(seconds 15.0)))
 		(
 
 		(return-enemy-flag (trigger ((have_enemy_flag 1.0 =))) retrace-back(seconds 0.3)))

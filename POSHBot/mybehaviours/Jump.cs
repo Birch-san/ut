@@ -37,7 +37,7 @@ namespace Posh_sharp.POSHBot
             if (_debug_)
                 Console.Out.WriteLine(" in Jump");
 
-            GetBot().SendMessage("JUMP", new Dictionary<string, string>());
+            GetBot().SendMessage("JUMP", new Dictionary<string, string> { { "DoubleJump", "true" } });
 
             // This is an example command which sends a request to the game engine to let the character stop shooting.
             // The commands are based on the included GameBots2004 API which is available on the project webpage.
@@ -69,6 +69,7 @@ namespace Posh_sharp.POSHBot
             GetMovement().moveto_navpoint();
 
             Thread.Sleep(200);
+            //GetBot().SendMessage("SETSKIN", new Dictionary<string, string> { { "Skin", "HumanFemaleA.MercFemaleB" } });
 
             /*GetBot().SendMessage("STOP", new Dictionary<string, string>());
 

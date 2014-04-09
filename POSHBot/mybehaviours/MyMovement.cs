@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 using POSH_sharp.sys;
 using POSH_sharp.sys.annotations;
@@ -20,7 +21,7 @@ namespace Posh_sharp.POSHBot
 
         public MyMovement(AgentBase agent)
             : base(agent,
-            new string[] { "retrace_navpoint2" },
+            new string[] { "retrace_navpoint2", "WobbleForward" },
             new string[] {  })
         {
             this.info = new PositionsInfo();
@@ -98,6 +99,20 @@ namespace Posh_sharp.POSHBot
 
             // we need to clear navpoints sometime if we realise we are in our base.
             return GetNavigator().retrace_navpoint();
+        }
+
+        [ExecutableAction("WobbleForward")]
+        public bool WobbleForward()
+        {
+            if (GetNavigator().selected_target())
+            {
+                GetBot().SendMessage("JUMP", new Dictionary<string, string>());
+                Thread.Sleep(100);
+                GetBot().SendMessage("DODGE", new Dictionary<string, string> { { "Direction", GetNavigator().GetSelectedNavpoint().Location.ToString() } });
+            }
+
+            // we need to clear navpoints sometime if we realise we are in our base.
+            return true;
         }
        
 
