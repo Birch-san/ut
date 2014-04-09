@@ -15,7 +15,6 @@
 ))
 (AP AP-ShootAttacker (minutes 1.0) (
 	SetAttacker 
-	FaceAttacker 
 	ShootAttacker
 ))
 (AP AP-SetAttacker (minutes 1.0) (
@@ -28,6 +27,11 @@
 	(elements
 		(	(CE-moveto-navpoint (trigger ((selected_target) (reached_target 0.0 =))) moveto-selected-nav)	)
 		(	(CE-find-nxt-waypoint (trigger ((close_navpoint 1.0 =))) select_navpoint)	)
+	)
+)
+(C set-skin (seconds 2.0) (goal ((skinned 1.0 =)))
+	(elements
+		(	(CE-skin (trigger ((success))) doskin)	)
 	)
 )
 (C get-enemy-flag (seconds 30.0) (goal ((have_enemy_flag 1.0 =)))
@@ -48,9 +52,9 @@
 		(	(CE-JumpWhenNeeded (trigger ((IsStuck))) AP-JumpForward)	)
 	)
 )
-(C CE-handle-threat (seconds 6.0) (goal ((SeekAttacker 0.0 =)))
+(C CE-handle-threat (seconds 6.0) (goal ((SetAttacker 0.0 =)))
 	(elements
-		(	(CE-attack-visible (trigger ((succeed 1.0 =))) AP-ShootAttacker)	)
+		(	(CE-attack-visible (trigger ((ArmedAndAmmo))) ShootAttacker)	)
 	)
 )
 (C hunt (minutes 1.0) (goal ((fail)))
@@ -68,6 +72,9 @@
 	(drives
 		(
 
+		(DE_set_skin (trigger ((skinned 1.0 !=))) set-skin(seconds 1.0)))
+		(
+
 		(return-enemy-flag (trigger ((have_enemy_flag 1.0 =))) retrace-back(seconds 0.3)))
 		(
 
@@ -77,7 +84,7 @@
 		(get-enemy-flag-from-base (trigger ((enemy_flag_reachable 1.0 =))) get-enemy-flag(seconds 0.3)))
 		(
 
-		(attack-visible (trigger ((ArmedAndAmmo) (SeekAttacker 1.0 =))) CE-handle-threat(seconds 0.3)))
+		(attack-visible (trigger ((ArmedAndAmmo) (SetAttacker 1.0 =))) CE-handle-threat(seconds 0.3)))
 		(
 
 		(wander_around (trigger ((have_enemy_flag 1.0 !=) (teammate_has_enemy_flag 1.0 !=))) wander-map(seconds 0.3)))

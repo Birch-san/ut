@@ -20,8 +20,8 @@ namespace Posh_sharp.POSHBot
 
         internal CombatInfo info;
         public MyCombat(AgentBase agent)
-            : base(agent, new string[] { "Taunt", "ChooseBestWeapon" },
-                        new string[] { "SeekAttacker", "PaintedTarget" })
+            : base(agent, new string[] { "doskin", "Taunt", "Resist", "ChooseBestWeapon" },
+                        new string[] { "SeeEnemy2", "skinned", "SeekAttacker", "PaintedTarget" })
         {
             info = new CombatInfo();
         }
@@ -37,41 +37,20 @@ namespace Posh_sharp.POSHBot
             Console.Out.WriteLine(" in SeekAttacker");
             // FOR NOW
 
-            if (!hasSkinned)
-            {
-                GetBot().SendMessage("SETSKIN", new Dictionary<string, string> { { "Skin", "HumanFemaleA.MercFemaleB" } });
-                hasSkinned = true;
-                return false;
-            }
+            
 
-            if (GetBot().viewPlayers.Count == 0 || GetBot().info.Count == 0)
-                return false;
-
-            if (info.GetDamageDetails() is Damage && info.DamageDetails.AttackerID != "")
-                if (GetBot().viewPlayers.ContainsKey(info.DamageDetails.AttackerID))
-                {
-                    // set variables so that other commands will keep him in view
-                    // Turned KeepFocusOnID into a tuple with the current_time as a timestamp FA
-                    info.KeepFocusOnID = new Tuple<string, long>(info.DamageDetails.AttackerID, TimerBase.CurrentTimeStamp());
-                    info.KeepFocusOnLocation = new Tuple<Vector3, long>(GetBot().viewPlayers[info.DamageDetails.AttackerID].Location, TimerBase.CurrentTimeStamp());
-                }
-                else
-                    return FindEnemyInView();
-            else
-                return FindEnemyInView();
-
-            // unset target if we had one; we have clearly lost it.
-            targetChosen = false;
-            return false;
+            return GetCombat().SetAttacker();
         }
 
-        // makes sure just one target is chosen at a time
-        [ExecutableSense("PaintedTarget")]
-        public bool PaintedTarget()
+        [ExecutableSense("SeeEnemy2")]
+        public bool SeeEnemy2()
         {
-            targetChosen = true;
-            bool answer = SeekAttacker();
-            return answer;
+            bool result = GetMovement().SeeEnemy();
+            if (!result)
+            {
+                GetBot().SendMessage("STOPSHOOT", new Dictionary<string, string>());
+            }
+            return result;
         }
 
         [ExecutableAction("ChooseBestWeapon")]
@@ -80,6 +59,15 @@ namespace Posh_sharp.POSHBot
             GetBot().SendMessage("CHANGEWEAPON", new Dictionary<string, string> { { "Id", "CTF-Bath-CW3-comp.AssaultRifle" } });
             GetBot().SendMessage("CHANGEWEAPON", new Dictionary<string, string> { { "Id", "CTF-Bath-CW3-comp.ShockRifle" } });
             GetBot().SendMessage("CHANGEWEAPON", new Dictionary<string, string> { { "Id", "CTF-Bath-CW3-comp.Minigun" } });
+            return true;
+        }
+
+        [ExecutableAction("Resist")]
+        public bool Resist()
+        {
+            GetCombat().FaceAttacker();
+            GetCombat().ShootAttacker();
+
             return true;
         }
 
@@ -99,6 +87,20 @@ namespace Posh_sharp.POSHBot
                 GetBot().SendMessage("MESSAGE", new Dictionary<string, string> { { "Global", "True" }, { "Text", interest } });
             }
             return true;
+        }
+
+        [ExecutableAction("doskin")]
+        public bool doskin()
+        {
+            GetBot().SendMessage("SETSKIN", new Dictionary<string, string> { { "Skin", "HumanFemaleA.MercFemaleB" } });
+            hasSkinned = true;
+            return true;
+        }
+
+        [ExecutableSense("skinned")]
+        public bool skinned()
+        {
+            return hasSkinned;
         }
 
         private bool FindEnemyInView()

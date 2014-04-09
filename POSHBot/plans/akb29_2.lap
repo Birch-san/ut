@@ -25,7 +25,7 @@
 (AP AP-ShootAttacker (minutes 1.0) (
 	SetAttacker 
 	FaceAttacker 
-	ShootAttacker
+	ShootAttacker 
 ))
 (AP AP-SetAttacker (minutes 1.0) (
 	SeekAttacker
@@ -54,31 +54,22 @@
 		(	(CE-JumpWhenNeeded (trigger ((IsStuck))) AP-JumpForward)	)
 	)
 )
-(C CE-handle-threat (seconds 6.0) (goal ((SeekAttacker 0.0 =)))
+(C CE-handle-threat (seconds 6.0) (goal ((SeeEnemy2 0.0 =)))
 	(elements
-		(	(CE-attack-visible (trigger ((succeed 1.0 =))) AP-ShootAttacker)	)
+		(	(CE-attack-visible (trigger ((ArmedAndAmmo 1.0 =))) AP-ShootAttacker)	)
 	)
 )
 (SRDC life (goal ((game_ended 1.0 =)))
 	(drives
 		(
 
-		(bestweap (trigger ((succeed))) AP-BestWeap(seconds 5.0)))
-		(
-
-		(taunt (trigger ((succeed))) AP-Taunt(seconds 15.0)))
+		(attack-visible (trigger ((ArmedAndAmmo) (SeeEnemy2 1.0 =))) CE-handle-threat(seconds 0.0)))
 		(
 
 		(return-enemy-flag (trigger ((have_enemy_flag 1.0 =))) retrace-back(seconds 0.3)))
 		(
 
 		(get-enemy-flag-from-base (trigger ((enemy_flag_reachable 1.0 =))) get-enemy-flag(seconds 0.3)))
-		(
-
-		(attack-visible (trigger ((ArmedAndAmmo) (SeekAttacker 1.0 =))) CE-handle-threat(seconds 0.3)))
-		(
-
-		(hunt (trigger ((teammate_has_enemy_flag 1.0 =))) wander-map(seconds 0.3)))
 		(
 
 		(wander_around (trigger ((have_enemy_flag 1.0 !=))) wander-map(seconds 0.3)))
