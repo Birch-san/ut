@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="mybehaviours\Jump.cs" />
     <Compile Include="mybehaviours\MyCombat.cs" />
+    <Compile Include="mybehaviours\MyMovement.cs" />
     <Compile Include="mybehaviours\MyNavigator.cs" />
     <Compile Include="mybehaviours\MyStatus.cs" />
     <Compile Include="Template.cs" />

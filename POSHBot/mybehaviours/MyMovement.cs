@@ -74,7 +74,8 @@ namespace Posh_sharp.POSHBot
 
         public string GetBaseNavId()
         {
-            return info.ownBasePos.Id;
+            return GetNavigator().GetSelectedNavpoint().Id;
+            //return GetMovement().info.ownBasePos.Id;
         }
 
         /*
@@ -88,9 +89,10 @@ namespace Posh_sharp.POSHBot
             if (GetMovement().KnowOwnBasePos())
             {
                 // if at own base, stay there rather than overshooting
-                if (GetMovement().at_own_base())
+                if (GetNavigator().at_own_base())
                 {
-                    GetNavigator().select_navpoint(GetBaseNavId());
+                    return false;
+                    //GetNavigator().select_navpoint(GetBaseNavId());
                 }
             }
 

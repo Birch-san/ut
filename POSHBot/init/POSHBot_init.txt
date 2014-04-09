@@ -11,12 +11,6 @@ POSHBot.ip = 127.0.0.1
 POSHBot.port = 3000
 
 [akb29_2]
-POSHBot.botname = Mami
-POSHBot.team = 0
-POSHBot.ip = 127.0.0.1
-POSHBot.port = 3000
-
-[akb29_2]
 POSHBot.botname = Sayaka
 POSHBot.team = 0
 POSHBot.ip = 127.0.0.1
@@ -30,12 +24,6 @@ POSHBot.port = 3000
 
 [akb29_2]
 POSHBot.botname = Charlotte
-POSHBot.team = 1
-POSHBot.ip = 127.0.0.1
-POSHBot.port = 3000
-
-[akb29_2]
-POSHBot.botname = Kyuubey
 POSHBot.team = 1
 POSHBot.ip = 127.0.0.1
 POSHBot.port = 3000

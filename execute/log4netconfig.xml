@@ -35,7 +35,9 @@
   <root>
     <level value="DEBUG" />
     <appender-ref ref="Console" />
+    <!--
     <appender-ref ref="RollingFile" />
+    -->
     <!--
     <appender-ref ref="FileAppender" />
     <appender-ref ref="RollingFile" />

@@ -31,6 +31,8 @@ namespace Posh_sharp.POSHBot
         public bool SeekAttacker()
         {
             Console.Out.WriteLine(" in SeekAttacker");
+            // FOR NOW
+            return false;
 
             if (GetBot().viewPlayers.Count == 0 || GetBot().info.Count == 0)
                 return false;
