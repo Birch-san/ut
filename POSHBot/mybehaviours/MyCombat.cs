@@ -56,9 +56,11 @@ namespace Posh_sharp.POSHBot
         [ExecutableAction("ChooseBestWeapon")]
         public bool ChooseBestWeapon()
         {
-            GetBot().SendMessage("CHANGEWEAPON", new Dictionary<string, string> { { "Id", "CTF-Bath-CW3-comp.AssaultRifle" } });
-            GetBot().SendMessage("CHANGEWEAPON", new Dictionary<string, string> { { "Id", "CTF-Bath-CW3-comp.ShockRifle" } });
-            GetBot().SendMessage("CHANGEWEAPON", new Dictionary<string, string> { { "Id", "CTF-Bath-CW3-comp.Minigun" } });
+            string mapName = GetBot().info["Weapon"].Substring(0, GetBot().info["Weapon"].LastIndexOf('.'));
+
+            GetBot().SendMessage("CHANGEWEAPON", new Dictionary<string, string> { { "Id", mapName+".AssaultRifle" } });
+            GetBot().SendMessage("CHANGEWEAPON", new Dictionary<string, string> { { "Id", mapName + ".ShockRifle" } });
+            GetBot().SendMessage("CHANGEWEAPON", new Dictionary<string, string> { { "Id", mapName + ".Minigun" } });
             return true;
         }
 
