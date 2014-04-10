@@ -37,7 +37,7 @@ namespace Posh_sharp.POSHBot
             Console.Out.WriteLine(" in SeekAttacker");
             // FOR NOW
 
-            
+
 
             return GetCombat().SetAttacker();
         }
@@ -56,11 +56,15 @@ namespace Posh_sharp.POSHBot
         [ExecutableAction("ChooseBestWeapon")]
         public bool ChooseBestWeapon()
         {
-            string mapName = GetBot().info["Weapon"].Substring(0, GetBot().info["Weapon"].LastIndexOf('.'));
+            if (GetBot().info.ContainsKey("Weapon"))
+            {
+                string mapName = GetBot().info["Weapon"].Substring(0, GetBot().info["Weapon"].LastIndexOf('.'));
 
-            GetBot().SendMessage("CHANGEWEAPON", new Dictionary<string, string> { { "Id", mapName+".AssaultRifle" } });
-            GetBot().SendMessage("CHANGEWEAPON", new Dictionary<string, string> { { "Id", mapName + ".ShockRifle" } });
-            GetBot().SendMessage("CHANGEWEAPON", new Dictionary<string, string> { { "Id", mapName + ".Minigun" } });
+                GetBot().SendMessage("CHANGEWEAPON", new Dictionary<string, string> { { "Id", mapName + ".AssaultRifle" } });
+                GetBot().SendMessage("CHANGEWEAPON", new Dictionary<string, string> { { "Id", mapName + ".ShockRifle" } });
+                GetBot().SendMessage("CHANGEWEAPON", new Dictionary<string, string> { { "Id", mapName + ".Minigun" } });
+                return true;
+            }
             return true;
         }
 
@@ -78,7 +82,8 @@ namespace Posh_sharp.POSHBot
         {
             Random random = new Random();
             int randomNumber = random.Next(0, 100);
-            if (randomNumber > 85) {
+            if (randomNumber > 85)
+            {
                 var client = new WebClient();
                 // Download Text From web
                 var text = client.DownloadString("http://www.pangloss.com/seidel/Shaker/index.html");
